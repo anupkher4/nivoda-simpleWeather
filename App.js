@@ -7,12 +7,13 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
+import { toCelcius, toFahrenheit } from './Utilities';
 
 import WeatherData from './WeatherData';
 import WeatherCard from './WeatherCard';
 
-const temperature = WeatherData.main.temp;
-const time = WeatherData.timezone;
+const temperature = toCelcius(WeatherData.main.temp);
+const time = new Date(WeatherData.dt).toLocaleTimeString();
 const city = WeatherData.name;
 
 const styles = StyleSheet.create({

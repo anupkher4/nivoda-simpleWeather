@@ -52,7 +52,7 @@ class LabelStack extends Component {
 
 class TemperatureLabel extends Component {
 	render() {
-		return <Text style={styles.temperature}>{this.props.temperature}</Text>;
+		return <Text style={styles.temperature}>{this.props.temperature.toString() + "º"}</Text>;
 	}
 }
 
