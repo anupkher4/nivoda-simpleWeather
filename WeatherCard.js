@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import { toCelcius, toFahrenheit } from './Utilities';
+
 const styles = StyleSheet.create({
 	card: {
 		flexDirection: 'row',
@@ -62,10 +64,14 @@ export default class WeatherCard extends Component {
 	}
 
 	render() {
+		const time = new Date(this.props.weatherData.dt).toLocaleTimeString();
+		const city = this.props.weatherData.name;
+		const temperature = toCelcius(this.props.weatherData.main.temp);
+
 		return (
 			<View style={styles.card}>
-				<LabelStack time={this.props.time} city={this.props.city} />
-				<TemperatureLabel temperature={this.props.temperature} />
+				<LabelStack time={time} city={city} />
+				<TemperatureLabel temperature={temperature} />
 			</View>
 		);
 	}

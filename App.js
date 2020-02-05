@@ -7,31 +7,38 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import { toCelcius, toFahrenheit } from './Utilities';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import 'react-native-gesture-handler';
 
 import WeatherData from './WeatherData';
-import WeatherCard from './WeatherCard';
+import WeatherListScreen from './WeatherListScreen';
 
-const temperature = toCelcius(WeatherData.main.temp);
-const time = new Date(WeatherData.dt).toLocaleTimeString();
-const city = WeatherData.name;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
+class AddWeatherScreen extends Component {
+
+}
+
+const RootStack = createStackNavigator(
+  {
+    WeatherList: {
+      screen: WeatherListScreen,
+    },
+    AddWeather: {
+      screen: AddWeatherScreen,
+    },
   },
-});
+  {
+    initialRouteName: 'WeatherList',
+    mode: 'modal',
+    headerMode: 'none',
+  }
+);
+
+const AppContainer = createAppContainer(RootStack);
 
 export default class App extends Component {
   render() {
-    return (
-      <React.Fragment>
-        <StatusBar barStyle="light-content" />
-        <SafeAreaView style={styles.container}>
-          <WeatherCard temperature={temperature} time={time} city={city} />
-        </SafeAreaView>
-      </React.Fragment>
-    );
+    return <AppContainer />;
   }
 }
