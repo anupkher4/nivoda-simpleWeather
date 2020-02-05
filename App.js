@@ -11,9 +11,7 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import 'react-native-gesture-handler';
 
-import WeatherData from './WeatherData';
-import WeatherListScreen from './WeatherListScreen';
-
+import WeatherListController from './WeatherListController';
 
 class AddWeatherScreen extends Component {
 
@@ -22,7 +20,7 @@ class AddWeatherScreen extends Component {
 const RootStack = createStackNavigator(
   {
     WeatherList: {
-      screen: WeatherListScreen,
+      screen: WeatherListController,
     },
     AddWeather: {
       screen: AddWeatherScreen,

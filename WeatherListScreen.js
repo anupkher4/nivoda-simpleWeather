@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Alert,
   ActivityIndicator,
+  Button,
   SafeAreaView,
   StyleSheet,
   FlatList,
@@ -31,7 +32,6 @@ export default class WeatherListScreen extends Component {
     super(props);
     this.state = {
       isFethcing: true,
-      cities: ['Mumbai', 'Amsterdam', 'Hong Kong', 'San Francisco'],
       weatherData: [],
     };
   }
@@ -57,9 +57,18 @@ export default class WeatherListScreen extends Component {
   }
 
   componentDidMount() {
-    this.state.cities.forEach((city) => {
+    console.log('In componentDidMount');
+    this.props.cities.forEach((city) => {
       this.fetchWeatherForCity(city);
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.cities !== prevProps.cities) {
+      this.props.cities
+                .filter(city => !prevProps.cities.includes(city))
+                .forEach(city => this.fetchWeatherForCity(city));
+    }
   }
 
   render() {
@@ -70,7 +79,7 @@ export default class WeatherListScreen extends Component {
         </SafeAreaView>
       );
     }
-
+    console.log('In list render');
     return (
       <React.Fragment>
         <StatusBar barStyle="light-content" />
@@ -79,6 +88,10 @@ export default class WeatherListScreen extends Component {
             data={this.state.weatherData}
             renderItem={({ item }) => <WeatherCard weatherData={item} />}
             keyExtractor={item => item.id.toString()}
+          />
+          <Button
+            title="Add City"
+            onPress={() => this.props.addCity('New Delhi')}
           />
         </SafeAreaView>
       </React.Fragment>
