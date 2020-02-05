@@ -37,27 +37,25 @@ export default class WeatherListScreen extends Component {
   }
 
   fetchWeatherForCity(city) {
-    console.log('Calling ' + 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + openWeatherApiKey);
     return fetch('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + openWeatherApiKey)
            .then((response) => response.json())
            .then((responseJson) => {
-             if (responseJson.cod === '404') {
+             if (responseJson.cod == '404') {
                this.setState({ isFethcing: false });
-               Alert.alert(responseJson.message);
+               Alert.alert('Error finding weather for', city);
+             } else {
+               this.setState({
+                 isFethcing: false,
+                 weatherData: this.state.weatherData.concat(responseJson),
+               });
              }
-             this.setState({
-               isFethcing: false,
-               weatherData: this.state.weatherData.concat(responseJson),
-             });
            })
            .catch((error) => {
              console.log(error);
-             Alert.alert('Error finding weather for', city);
            });
   }
 
   componentDidMount() {
-    console.log('In componentDidMount');
     this.props.cities.forEach((city) => {
       this.fetchWeatherForCity(city);
     });
@@ -79,7 +77,7 @@ export default class WeatherListScreen extends Component {
         </SafeAreaView>
       );
     }
-    console.log('In list render');
+
     return (
       <React.Fragment>
         <StatusBar barStyle="light-content" />
@@ -91,7 +89,7 @@ export default class WeatherListScreen extends Component {
           />
           <Button
             title="Add City"
-            onPress={() => this.props.addCity('New Delhi')}
+            onPress={this.props.showAddWeather}
           />
         </SafeAreaView>
       </React.Fragment>
