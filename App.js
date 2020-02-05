@@ -13,18 +13,38 @@ import 'react-native-gesture-handler';
 
 import WeatherListController from './WeatherListController';
 import AddWeatherScreen from './AddWeatherScreen';
+import WeatherDetailsScreen from './WeatherDetailsScreen';
+
+const WeatherStack = createStackNavigator(
+  {
+    List: {
+      screen: WeatherListController,
+    },
+    Details: {
+      screen: WeatherDetailsScreen,
+    },
+  },
+  {
+    initialRouteName: 'List',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: 'black',
+      },
+      headerTintColor: '#fff',
+    }
+  }
+);
 
 const RootStack = createStackNavigator(
   {
     WeatherList: {
-      screen: WeatherListController,
+      screen: WeatherStack,
     },
     AddWeather: {
       screen: AddWeatherScreen,
     },
   },
   {
-    initialRouteName: 'WeatherList',
     mode: 'modal',
     headerMode: 'none',
   }

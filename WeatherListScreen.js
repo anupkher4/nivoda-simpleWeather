@@ -9,6 +9,7 @@ import {
   View,
   Text,
   StatusBar,
+  TouchableOpacity,
 } from 'react-native';
 
 import { openWeatherApiKey } from './apikeys';
@@ -84,7 +85,11 @@ export default class WeatherListScreen extends Component {
         <SafeAreaView style={styles.container}>
           <FlatList 
             data={this.state.weatherData}
-            renderItem={({ item }) => <WeatherCard weatherData={item} />}
+            renderItem={({ item }) =>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Details', { weather: item })}>
+                <WeatherCard weatherData={item} />
+              </TouchableOpacity>
+            }
             keyExtractor={item => item.id.toString()}
           />
           <Button
