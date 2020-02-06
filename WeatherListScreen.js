@@ -92,10 +92,6 @@ export default class WeatherListScreen extends Component {
             }
             keyExtractor={item => item.id.toString()}
           />
-          <Button
-            title="Add City"
-            onPress={this.props.showAddWeather}
-          />
         </SafeAreaView>
       </React.Fragment>
     );

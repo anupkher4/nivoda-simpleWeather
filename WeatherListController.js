@@ -1,16 +1,33 @@
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 
 import WeatherListScreen from './WeatherListScreen';
 import WeatherDetailsScreen from './WeatherDetailsScreen';
 
 export default class WeatherListController extends Component {
+	static navigationOptions = ({ navigation }) => {
+		return {
+			headerTitle: () => <Text></Text>,
+			headerRight: () => (
+				<Button
+					title="Add City"
+					color="#fff"
+					onPress={() => navigation.navigate('AddWeather', { addCity: navigation.getParam('addCity') })}
+				/>
+			),
+		};
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {
 			cities: ['Mumbai'],
 		};
 		this.addCity = this.addCity.bind(this);
+	}
+
+	componentDidMount() {
+		this.props.navigation.setParams({ addCity: this.addCity });
 	}
 
 	addCity(cityName) {
@@ -24,8 +41,6 @@ export default class WeatherListController extends Component {
 			<WeatherListScreen
 				navigation={this.props.navigation}
 				cities={this.state.cities}
-				addCity={this.addCity}
-				showAddWeather={() => this.props.navigation.navigate('AddWeather', { addCity: this.addCity })}
 			/>
 		);
 	}
