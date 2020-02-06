@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { toCelcius, toFahrenheit } from './Utilities';
+import { toCelcius, toFahrenheit, getShiftedDateInMilliseconds } from './Utilities';
 
 const styles = StyleSheet.create({
 	card: {
@@ -9,7 +9,12 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		height: 100,
+	},
+	day: {
 		backgroundColor: 'deepskyblue',
+	},
+	evening: {
+		backgroundColor: '#2B4162',
 	},
 	stack: {
 		marginLeft: 20,
@@ -64,15 +69,21 @@ export default class WeatherCard extends Component {
 	}
 
 	render() {
-		const utcTimeInMs = new Date().getTimezoneOffset() * 60 * 1000;
-		const shiftedDate = (Date.now() + utcTimeInMs) + this.props.weatherData.timezone * 1000;
-		const time = new Date(shiftedDate).toLocaleTimeString();
+		const shiftedDateInMs = getShiftedDateInMilliseconds(this.props.weatherData.timezone);
+		const time = new Date(shiftedDateInMs);
+		const timeString = time.toLocaleTimeString();
 		const city = this.props.weatherData.name;
 		const temperature = toCelcius(this.props.weatherData.main.temp);
+		var cardStyles = [styles.card]
+		if (time.getHours() >= 18) {
+			cardStyles.push(styles.evening);
+		} else {
+			cardStyles.push(styles.day);
+		}
 
 		return (
-			<View style={styles.card}>
-				<LabelStack time={time} city={city} />
+			<View style={cardStyles}>
+				<LabelStack time={timeString} city={city} />
 				<TemperatureLabel temperature={temperature} />
 			</View>
 		);

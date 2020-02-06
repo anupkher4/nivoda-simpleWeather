@@ -6,4 +6,9 @@ function toFahrenheit(temperatureInKelvin) {
 	return Math.round((temperatureInKelvin * (9/5)) - 459.67);
 }
 
-export { toCelcius, toFahrenheit };
+function getShiftedDateInMilliseconds(offset) {
+	const utcTimeInMs = new Date().getTimezoneOffset() * 60 * 1000;
+	return Date.now() + utcTimeInMs + (offset * 1000);
+}
+
+export { toCelcius, toFahrenheit, getShiftedDateInMilliseconds };
