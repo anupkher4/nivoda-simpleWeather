@@ -8,3 +8,13 @@ Steps to run:
 1. To install all the dependencies `yarn install`
 2. To run on iOS simulator `yarn react-native run-ios`
 3. To run on Android emulator `yarn react-native run-android`
+
+---
+
+## Screenshots
+
+![Weather List](WeatherList.png)
+
+![Weather Details](WeatherDetails.png)
+
+![Weather Add](WeatherAdd.png)
