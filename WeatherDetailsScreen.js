@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 
-import { toCelcius, toFahrenheit } from './Utilities';
+import { toCelcius, toFahrenheit, getShiftedDateInMilliseconds } from './Utilities';
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: 'black',
+	},
+	day: {
+		backgroundColor: 'deepskyblue',
+	},
+	evening: {
+		backgroundColor: '#2B4162',
 	},
 	mainWeather: {
-		height: '40%',
+		height: '50%',
 		justifyContent: 'center',
 		alignItems: 'center',
+		borderBottomWidth: 0.5,
+		borderBottomColor: 'gray',
 	},
 	scrollView: {
 		flex: 1,
 		marginHorizontal: 40,
+		marginVertical: 40,
 	},
 	row: {
 		flexDirection: 'row',
@@ -39,12 +47,19 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 15,
-		color: 'lightgray',
+		color: 'white',
+		fontWeight: 'bold',
 	},
 	subtitle: {
 		fontSize: 32,
 		color: 'white',
 	},
+	right: {
+		alignSelf: 'flex-end',
+	},
+	left: {
+		alignSelf: 'flex-start',
+	}
 });
 
 class MainWeatherView extends Component {
@@ -77,8 +92,8 @@ class RightLabelStack extends Component {
 	render() {
 		return (
 			<View style={styles.stack}>
-				<Text style={styles.title}>{this.props.rightTitle}</Text>
-				<Text style={styles.subtitle}>{this.props.rightSubtitle}</Text>
+				<Text style={[styles.title, styles.right]}>{this.props.rightTitle}</Text>
+				<Text style={[styles.subtitle, styles.right]}>{this.props.rightSubtitle}</Text>
 			</View>
 		);
 	}
@@ -122,8 +137,17 @@ export default class WeatherDetailsScreen extends Component {
 	render() {
 		const navigation = this.props.navigation;
 		const weather = navigation.getParam('weather');
+		const shiftedDateInMs = getShiftedDateInMilliseconds(weather.timezone);
+		const time = new Date(shiftedDateInMs);
+		var detailStyles = [styles.container]
+		if (time.getHours() >= 18) {
+			detailStyles.push(styles.evening);
+		} else {
+			detailStyles.push(styles.day);
+		}
+
 		return (
-			<SafeAreaView style={styles.container}>
+			<SafeAreaView style={detailStyles}>
 				<MainWeatherView weather={weather}/>
 				<WeatherDetailsView weather={weather}/>
 			</SafeAreaView>

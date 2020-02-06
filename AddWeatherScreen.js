@@ -43,8 +43,10 @@ export default class AddWeatherScreen extends Component {
 
 	submitCityName(cityName) {
 		const { navigation } = this.props;
-		const addCity = navigation.getParam('addCity');
-		addCity(cityName);
+		if (cityName != "") {
+			const addCity = navigation.getParam('addCity');
+			addCity(cityName);
+		}
 		navigation.goBack();
 	}
 
@@ -54,6 +56,7 @@ export default class AddWeatherScreen extends Component {
 				<TextInput
 					style={styles.textInput}
 					placeholder="Enter name of a city, eg. London"
+					placeholderTextColor="white"
 					value={this.state.textValue}
 					onChangeText={text => this.filterCities(text)}
 					returnKeyType="search"

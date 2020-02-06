@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, Button, StyleSheet, View, TouchableOpacity } from 'react-native';
 
 import WeatherListScreen from './WeatherListScreen';
 import WeatherDetailsScreen from './WeatherDetailsScreen';
@@ -9,11 +9,13 @@ export default class WeatherListController extends Component {
 		return {
 			headerTitle: () => <Text></Text>,
 			headerRight: () => (
-				<Button
-					title="Add City"
-					color="#fff"
-					onPress={() => navigation.navigate('AddWeather', { addCity: navigation.getParam('addCity') })}
-				/>
+				<View style={{ paddingRight: 10 }}>
+					<Button
+						title="+ City"
+						color="#fff"
+						onPress={() => navigation.navigate('AddWeather', { addCity: navigation.getParam('addCity') })}
+					/>
+				</View>
 			),
 		};
 	};
