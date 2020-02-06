@@ -64,7 +64,9 @@ export default class WeatherCard extends Component {
 	}
 
 	render() {
-		const time = new Date(this.props.weatherData.dt).toLocaleTimeString();
+		const utcTimeInMs = new Date().getTimezoneOffset() * 60 * 1000;
+		const shiftedDate = (Date.now() + utcTimeInMs) + this.props.weatherData.timezone * 1000;
+		const time = new Date(shiftedDate).toLocaleTimeString();
 		const city = this.props.weatherData.name;
 		const temperature = toCelcius(this.props.weatherData.main.temp);
 
